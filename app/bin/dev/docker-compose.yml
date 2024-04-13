@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+  postgres:
+    container_name: postgres-db-app
+    image: postgres:13.0-alpine
+    ports:
+      - 5432:5432
+    volumes:  
+      - app_postgres-data:/var/lib/postgresql/data
+    env_file: .env
+
+  web:
+    container_name: app
+    build: .
+    restart: "on-failure"
+    env_file: ./.env
+    volumes:
+      - ../../:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - "postgres"
+    command: bash -c " python /code/manage.py makemigrations --noinput && python /code/manage.py migrate && python /code/manage.py runserver 0.0.0.0:8000"
+
+volumes:
+  app_postgres-data:
+
+# docker exec -it app bash   super user yaratmaq ucun  app adidir app in icinde edirsen bnu 
