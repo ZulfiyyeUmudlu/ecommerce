@@ -6,6 +6,9 @@ from django.http import HttpResponse
 #     return HttpResponse('Hello World')
     
 def index(request):
+    """
+    returns home page
+    """
     return render(request,'home/index.html')
 
 
