@@ -45,6 +45,8 @@ INSTALLED_APPS = [
     'core',
     'blog',
     'account',
+    'product',
+    'order',
 ]
 
 MIDDLEWARE = [
@@ -71,6 +73,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'core.context_processors.context_processors.subject_renderer',
             ],
         },
     },

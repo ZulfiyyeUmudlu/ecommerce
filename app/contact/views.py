@@ -1,12 +1,12 @@
 from django.shortcuts import redirect, render
 from django.contrib import messages
 from django.utils.translation import gettext_lazy as _
-from .models import ContactInfo
+# from .models import ContactInfo
 from .forms import AppealingForm
 
 
 def contact(request):
-    contact_info = ContactInfo.objects.first()
+    # contact_info = ContactInfo.objects.first()
     form = AppealingForm()
 
     if request.method == 'POST':
@@ -17,7 +17,7 @@ def contact(request):
             return redirect('contact')
         
     context = {
-        'contact_info': contact_info,
+        # 'contact_info': contact_info,
         'form': form
     }
 
