@@ -21,15 +21,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-=1l!pcv61j*+)^i^f%-c))bxgi!cl23tt%3c0k&y7ookw^kp=e'
+SECRET_KEY = 'django-insecure-ejegj*7q8n5lc4x$-9aa)mmg+g(h$*_b&sbkke_swa=2i041f8'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 PROD = not DEBUG
 
-ALLOWED_HOSTS = []
-
-
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -41,13 +39,13 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'contact',
     'core',
-    'blog',
-    'account',
+    'contact',
+    'account.apps.AccountConfig',
     'product',
     'order',
-]
+    'modeltranslation',
+    ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -65,7 +63,7 @@ AUTH_USER_MODEL = 'account.Account'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'templates')],
+        'DIRS': [os.path.join(BASE_DIR, "templates")],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -85,22 +83,15 @@ WSGI_APPLICATION = 'app.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": os.environ.get("POSTGRES_DB", "name_db"),
-        "USER": os.environ.get("POSTGRES_USER", "user_db"),
-        "PASSWORD": os.environ.get( "POSTGRES_PASSWORD"),
-        "HOST": os.environ.get("POSTGRES_HOST", "localhost"),
-        "PORT": os.environ.get("POSTGRES_PORT", "5435"),
-    }   
+        "NAME": os.environ.get("POSTGRES_DB"),
+        "USER": os.environ.get("POSTGRES_USER"),
+        "PASSWORD": os.environ.get("POSTGRES_PASSWORD"),
+        "HOST": os.environ.get("POSTGRES_HOST"),
+        "PORT": os.environ.get("POSTGRES_PORT"),
+    }
 }
 
 
@@ -125,10 +116,18 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
+LANGUAGES = (
+    ('en', 'en'),
+    ('az', 'az'),
+    ('ru', 'ru'),
+)
 
-LANGUAGE_CODE = 'az' #en-us
+MODELTRANSLATION_DEFAULT_LANGUAGE = 'en'
+MODELTRANSLATION_LANGUAGES = ('en', 'az', 'ru')
 
-TIME_ZONE = 'Asia/Baku' #UTC
+LANGUAGE_CODE = 'az'
+
+TIME_ZONE = 'Asia/Baku'
 
 USE_I18N = True
 
@@ -138,15 +137,14 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = 'static/'
-
+STATIC_URL = "static/"
 if PROD:
-    STATIC_ROOT = os.path.join(BASE_DIR,"static")
+    STATIC_ROOT = os.path.join(BASE_DIR, "static")
 else:
-    STATICFILES_DIRS = [os.path.join(BASE_DIR,"static")]
-    
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, "static")]
+
 MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR,"media")
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

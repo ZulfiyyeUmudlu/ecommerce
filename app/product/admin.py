@@ -1,3 +1,16 @@
 from django.contrib import admin
+from .models import Comment, Product, ProductType, Color, Size, Category,Brand
+from .forms import CategoryAdminForm
 
-# Register your models here.
+admin.site.register(Comment)
+admin.site.register(Product)
+admin.site.register(ProductType)
+admin.site.register(Color)
+admin.site.register(Size)
+admin.site.register(Brand)
+
+# admin.site.register(Category)
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    form = CategoryAdminForm
