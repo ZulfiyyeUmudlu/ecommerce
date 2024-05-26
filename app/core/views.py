@@ -1,8 +1,12 @@
 from django.shortcuts import render
 
+from product.models import Category
+
 
 def index(request):
-    """
-    returns home page
-    """
-    return render(request, 'home/index.html')
+    categories = Category.objects.filter(is_parent=True)
+    context = {
+        'categories' : categories
+        
+    }
+    return render(request, 'home/index.html',context)

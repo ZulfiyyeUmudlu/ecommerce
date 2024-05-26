@@ -1,4 +1,5 @@
 from django.db import models
+from order.models import WishList
 from utils.models import BaseModel
 
 
@@ -22,6 +23,11 @@ class Category(BaseModel):
         blank=True
     )
     is_parent = models.BooleanField(default=False)
+
+    @property
+    def product_count(self):
+        subcategories = self.childs.all()
+        return sum([cat.products.count() for cat in subcategories])
 
     def __str__(self) -> str:
         return self.name
@@ -95,6 +101,7 @@ class Color(BaseModel):
 class Product(BaseModel):
     name = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
+    color = models.CharField(max_length=50) 
     price = models.DecimalField(
         max_digits=16,
         decimal_places=2,
@@ -111,10 +118,12 @@ class Product(BaseModel):
         related_name='products',
         null=True
     )
-    product_type = models.ForeignKey(
-        ProductType,
-        on_delete=models.PROTECT,
-        related_name='products'
+    color = models.CharField(max_length=20, null=True)
+    size = models.JSONField(null=True)
+    siblings = models.ManyToManyField(
+        'self',
+        null=True,
+        blank=True
     )
     image = models.ImageField(
         upload_to='products',
@@ -136,6 +145,18 @@ class Product(BaseModel):
     adding_to_basket_count = models.PositiveIntegerField(
         default=0
     )
+    added_to_wish_list = models.BooleanField(default=False)
+
+    # @property
+    # def added_to_wish_list(self):
+    #     try:
+    #         wish_list = WishList.objects.get(user=self.request.user)
+    #         product = Product.objects.get(id=self.id)
+    #         if product in wish_list.product.all():
+    #             return True
+    #         return False
+    #     except WishList.DoesNotExist:
+    #         return False
 
     def __str__(self) -> str:
         return self.name

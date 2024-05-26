@@ -22,6 +22,7 @@ class ProductDetailView(DetailView):
     context_object_name = 'product'
     template_name = 'product/detail.html'
     slug_url_kwarg = 'slug'
+    
 
     def get_context_data(self, **kwargs: Any):
         context = super().get_context_data(**kwargs)

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load static %}
+{% load static  i18n %}
 <html lang="en">
 
 <head>
@@ -144,21 +144,22 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="{% url 'index' %}" class="nav-item nav-link{% if request.resolver_match.url_name == 'index' %} active{% endif %}">Home</a>
-                            <a href="{% url 'products' %}" class="nav-item nav-link">Products</a>
-                            <a href="{% url 'contact' %}" class="nav-item nav-link{% if request.resolver_match.url_name == 'contact' %} active{% endif %}">Contact</a>
+                            <a href="{% url 'index' %}" class="nav-item nav-link{% if request.resolver_match.url_name == 'index' %} active{% endif %}">{% trans 'Home' %}</a>
+                            <a href="" class="nav-item nav-link">{% trans 'About' %}</a>
+                            <a href="{% url 'products' %}" class="nav-item nav-link {% if request.resolver_match.url_name == 'products' %} active{% endif %}">{% trans 'Products' %}</a>
+                            <a href="{% url 'contact' %}" class="nav-item nav-link{% if request.resolver_match.url_name == 'contact' %} active{% endif %}">{% trans 'Contact' %}</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0">
                             {% if request.user.is_authenticated %}
                                 <div class="nav-item dropdown">
                                     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">{{ request.user.get_full_name }}</a>
                                     <div class="dropdown-menu rounded-0 m-0">
-                                        <a href="{% url 'logout' %}" class="dropdown-item">Logout</a>
+                                        <a href="{% url 'logout' %}" class="dropdown-item">{% trans 'Logout' %}</a>
                                     </div>
                                 </div>
                             {% else %}
-                                <a href="{% url 'login' %}" class="nav-item nav-link">Login</a>
-                                <a href="{% url 'register' %}" class="nav-item nav-link">Register</a>
+                                <a href="{% url 'login' %}" class="nav-item nav-link">{% trans 'Login' %}</a>
+                                <a href="{% url 'register' %}" class="nav-item nav-link">{% trans 'Register' %}</a>
                             {% endif %}
                         </div>
                     </div>
@@ -294,6 +295,9 @@
 
     <!-- Template Javascript -->
     <script src="{% static 'js/main.js' %}"></script>
+    {% block js %}
+    {% endblock %}
+
 </body>
 
 </html>
