@@ -34,7 +34,8 @@ class WishList(BaseModel):
     )
     product = models.ManyToManyField(
         'product.Product',
-        related_name='wish_list'
+        related_name='wish_list',
+        blank=True
     )
 
     class Meta:
@@ -57,14 +58,8 @@ class OrderItem(BaseModel):
         'product.Product',
         on_delete=models.CASCADE,
     )
-    size = models.ForeignKey(
-        'product.Size',
-        on_delete=models.PROTECT,
-    )
-    color = models.ForeignKey(
-        'product.Color',
-        on_delete=models.PROTECT,
-    )
+    size = models.CharField(max_length=20, null=True)   
+    color = models.CharField(max_length=20, null=True)
     quantity = models.PositiveIntegerField()
     order = models.ForeignKey(
         'order.Order', 
@@ -86,6 +81,6 @@ class OrderItem(BaseModel):
         return self.quantity * self.product.price # type: ignore
     
     class Meta:
-        verbose_name = 'Product item'
-        verbose_name_plural = 'Product items'
-        default_related_name = 'product_items'
+        verbose_name = 'Order item'
+        verbose_name_plural = 'Order items'
+        default_related_name = 'order_items'

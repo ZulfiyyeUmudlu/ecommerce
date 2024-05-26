@@ -32,3 +32,6 @@ twine==4.0.2
 urllib3==2.1.0
 wheel==0.42.0
 zipp==3.17.0
+djangorestframework==3.15.1
+django-filter==24.2
+markdown==3.6
