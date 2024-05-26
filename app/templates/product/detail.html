@@ -237,7 +237,7 @@
 {% block js %}
     <script>
         let productId = '{{ product.id }}'
-        {% comment %} let createOrderItemUrl = "{% url 'order_item_create' %}" {% endcomment %}
+        let createOrderItemUrl = "{% url 'order_item_create' %}"
         function goToThis(slug) {
             window.location.href = slug
         }
