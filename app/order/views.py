@@ -1,4 +1,8 @@
 from django.shortcuts import render
+from product.views import is_in_wish_list
+
+# from order.tasks import send_sms_when_status_changed
+
 from .models import Order, OrderItem, WishList
 
 
@@ -27,8 +31,11 @@ def checkout(request):
 def wish_list(request):
     wish_list, _ = WishList.objects.get_or_create(user=request.user)
     products = wish_list.product.all()
+    result = is_in_wish_list(products, request.user)
+
     context = {
         'wish_list': wish_list,
-        'products': products,
+        'products': result,
     }
     return render(request, 'order/wishlist.html', context)
+

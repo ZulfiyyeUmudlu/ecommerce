@@ -1,0 +1,45 @@
+{% extends "base/index.html" %}
+{% load static i18n %}
+
+{% block content %}
+    <!-- Page Header Start -->
+    <div class="container-fluid bg-secondary mb-5">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">{{ result_count }} {% trans 'results found for' %} "{{ keyword }}"</h1>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+
+    <!-- Shop Start -->
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5">
+            <!-- Shop Product Start -->
+            <div class="col-lg-9 col-md-12">
+                <div class="row pb-3">
+                    {% for product in results %}
+                        <div class="col-lg-4 col-md-6 col-sm-12 pb-1">
+                            <div class="card product-item border-0 mb-4">
+                                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                    <img class="img-fluid w-100" src="{{ product.image.url }}" alt="{{ product.name }}">
+                                    <i id="heart-{{ product.id }}" class="fas fa-heart position-absolute" style="cursor: pointer; top: 10px; right: 10px; font-size: 24px;{% if product.added_to_wish_list %} color: red{% endif %}" onclick="selectWishFunc('{{ product.id }}')"></i>
+                                </div>
+                                <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                                    <h6 class="text-truncate mb-3">{{ product.name }}</h6>
+                                    <div class="d-flex justify-content-center">
+                                        <h6>{{ product.price }} AZN</h6>{% if product.has_discount %}<h6 class="text-muted ml-2"><del>{{ product.old_price }} AZN</del></h6>{% endif %}
+                                    </div>
+                                </div>
+                                <div class="card-footer d-flex justify-content-between bg-light border">
+                                    <a href="{% url 'product-detail' product.slug %}" class="btn btn-sm text-dark p-0"><i class="fas fa-eye text-primary mr-1"></i>View Detail</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <!-- Shop Product End -->
+        </div>
+    </div>
+    <!-- Shop End -->
+{% endblock %}

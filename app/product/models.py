@@ -101,7 +101,6 @@ class Color(BaseModel):
 class Product(BaseModel):
     name = models.CharField(max_length=255)
     description = models.TextField(null=True, blank=True)
-    color = models.CharField(max_length=50) 
     price = models.DecimalField(
         max_digits=16,
         decimal_places=2,
@@ -145,18 +144,27 @@ class Product(BaseModel):
     adding_to_basket_count = models.PositiveIntegerField(
         default=0
     )
-    added_to_wish_list = models.BooleanField(default=False)
+    # added_to_wish_list = models.BooleanField(default=False)
 
     # @property
-    # def added_to_wish_list(self):
+    # def added_to_wish_list(self, user):
     #     try:
-    #         wish_list = WishList.objects.get(user=self.request.user)
-    #         product = Product.objects.get(id=self.id)
-    #         if product in wish_list.product.all():
+    #         wish_list = WishList.objects.get(user=user)
+    #         if self in wish_list.product.all():
     #             return True
     #         return False
     #     except WishList.DoesNotExist:
     #         return False
+    
+    @property
+    def added_to_wish_list(self):
+        if hasattr(self, '_added_to_wish_list'):
+            return self._added_to_wish_list
+        return False
+
+    @added_to_wish_list.setter
+    def added_to_wish_list(self, value):
+        self._added_to_wish_list = value
 
     def __str__(self) -> str:
         return self.name
